@@ -37,16 +37,11 @@ class GameViewController: UIViewController {
         skView.showsNodeCount = false
         
         /* Sprite Kit applies additional optimizations to improve rendering performance */
-        skView.ignoresSiblingOrder = true
+        skView.ignoresSiblingOrder = false
         
         /* Set the scale mode to scale to fit the window */
-        scene.scaleMode = .resizeFill
+        scene.scaleMode = .aspectFit
         
         skView.presentScene(scene)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
     }
 }

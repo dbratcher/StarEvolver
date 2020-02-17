@@ -18,7 +18,8 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         tapRestartLabel.text = ""
         tapRestartLabel.position = CGPoint(x: self.frame.midX, y: tapRestartLabel.position.y)
         tapRestartLabel.fontName = "Optima-ExtraBlack"
-        self.backgroundColor = SKColor(red:127.0/256.0, green:120.0/256.0, blue:106.0/256.0, alpha:1.0)
+//        self.backgroundColor = SKColor(red:127.0/256.0, green:120.0/256.0, blue:106.0/256.0, alpha:1.0)
+        self.backgroundColor = .black
         
         let tutorialLabel = childNode(withName: "tutorialLabel") as! SKLabelNode
         tutorialLabel.text = ""

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3ACD3CC523FA5725006865B8 /* Matter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3CC423FA5725006865B8 /* Matter.swift */; };
+		3ACD3CC723FA5754006865B8 /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3CC623FA5754006865B8 /* Star.swift */; };
 		EA167D091AEC3628005A6A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA167D081AEC3628005A6A0C /* AppDelegate.swift */; };
 		EA167D0D1AEC3628005A6A0C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA167D0C1AEC3628005A6A0C /* GameScene.swift */; };
 		EA167D0F1AEC3628005A6A0C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA167D0E1AEC3628005A6A0C /* GameViewController.swift */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3ACD3CC423FA5725006865B8 /* Matter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matter.swift; sourceTree = "<group>"; };
+		3ACD3CC623FA5754006865B8 /* Star.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		EA167D031AEC3628005A6A0C /* Star Evolver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Star Evolver.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA167D071AEC3628005A6A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA167D081AEC3628005A6A0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +75,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3ACD3CC323FA5714006865B8 /* Stars */ = {
+			isa = PBXGroup;
+			children = (
+				3ACD3CC423FA5725006865B8 /* Matter.swift */,
+				3ACD3CC623FA5754006865B8 /* Star.swift */,
+			);
+			name = Stars;
+			sourceTree = "<group>";
+		};
 		EA167CFA1AEC3628005A6A0C = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +106,7 @@
 		EA167D051AEC3628005A6A0C /* Star Evolver */ = {
 			isa = PBXGroup;
 			children = (
+				3ACD3CC323FA5714006865B8 /* Stars */,
 				EA321DC61B07D850004E691A /* star.png */,
 				EA167D081AEC3628005A6A0C /* AppDelegate.swift */,
 				EA167D0C1AEC3628005A6A0C /* GameScene.swift */,
@@ -244,8 +258,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ACD3CC523FA5725006865B8 /* Matter.swift in Sources */,
 				EA167D0D1AEC3628005A6A0C /* GameScene.swift in Sources */,
 				EA167D0F1AEC3628005A6A0C /* GameViewController.swift in Sources */,
+				3ACD3CC723FA5754006865B8 /* Star.swift in Sources */,
 				EA167D331AF078F3005A6A0C /* GameOverScene.swift in Sources */,
 				EA167D091AEC3628005A6A0C /* AppDelegate.swift in Sources */,
 			);
