@@ -34,11 +34,9 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     var achievements = [String:GKAchievement]()
     var rootNode = SKNode()
     
-    override func didMoveToView(view: SKView) {
-        
-        
-        authenticateLocalPlayer()
-        self.physicsWorld.gravity = CGVectorMake(0.0, 0.0)
+    override func didMove(to view: SKView) {
+//        authenticateLocalPlayer()
+        self.physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
         self.removeAllChildren()
         self.removeAllActions()
         tempo = 0
@@ -47,29 +45,29 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         levelTime = 10
         stars = Set<Star>()
         self.backgroundColor = SKColor(red:127.0/256.0, green:120.0/256.0, blue:106.0/256.0, alpha:1.0)
-        let center = CGPointMake(frame.midX, frame.midY)
-        let zero = CGPointMake(0, 0)
+        let center = CGPoint(x: frame.midX, y: frame.midY)
+        let zero = CGPoint(x: 0, y: 0)
         self.rootNode.position = center
-        lifetime_score = NSUserDefaults.standardUserDefaults().integerForKey("lifetime_score")
-        var starColor = SKColor.whiteColor()
-        var insideColor = SKColor.lightGrayColor()
+        lifetime_score = UserDefaults.standard.integer(forKey:"lifetime_score")
+        var starColor = SKColor.white
+        var insideColor = SKColor.lightGray
         if lifetime_score > 1000000 {
-            starColor = SKColor.purpleColor()
-            insideColor = SKColor.darkGrayColor()
+            starColor = SKColor.purple
+            insideColor = SKColor.darkGray
         } else if lifetime_score > 100000 {
-            starColor = SKColor.blueColor()
-            insideColor = SKColor.cyanColor()
+            starColor = SKColor.blue
+            insideColor = SKColor.cyan
         } else if lifetime_score > 10000 {
-            starColor = SKColor.redColor()
-            insideColor = SKColor.orangeColor()
+            starColor = SKColor.red
+            insideColor = SKColor.orange
         } else if lifetime_score > 1000 {
-            starColor = SKColor.yellowColor()
-            insideColor = SKColor.darkGrayColor()
+            starColor = SKColor.yellow
+            insideColor = SKColor.darkGray
         }
         myStar = Star(position: zero, scene: self.rootNode, color:starColor, mass:2, setInsideColor: insideColor)
-        lifetime_score = NSUserDefaults.standardUserDefaults().integerForKey("lifetime_score")
-        let zoomOut = SKAction.scaleTo(0.2, duration: 0)
-        myStar.runAction(zoomOut)
+        lifetime_score = UserDefaults.standard.integer(forKey:"lifetime_score")
+        let zoomOut = SKAction.scale(to: 0.2, duration: 0)
+        myStar.run(action: zoomOut)
         
         
         matterCollected = SKLabelNode(fontNamed: "Optima-ExtraBlack")
@@ -77,25 +75,25 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         matterCollected!.position = CGPoint(x: self.frame.midX, y: 520)
         matterCollected?.fontSize = 15
         self.addChild(matterCollected!)
-        
-        var ranTutorial = NSUserDefaults.standardUserDefaults().integerForKey("tutorial")
-        if ranTutorial == 0 {
-            tapToStart = true
-            tutorial()
-        } else {
-            increaseTempo()
-        }
+//
+//        let ranTutorial = UserDefaults.standard.integer(forKey:"tutorial")
+//        if ranTutorial == 0 {
+//            tapToStart = true
+//            tutorial()
+//        } else {
+//            increaseTempo()
+//        }
         
         // handle zooming
         
-        let zoomHandler = UIPinchGestureRecognizer(target: self, action: "handleZoom:")
+        let zoomHandler = UIPinchGestureRecognizer(target: self, action: #selector(handleZoom(sender:)))
         self.view?.addGestureRecognizer(zoomHandler)
         
         self.addChild(self.rootNode)
     }
     
-    func handleZoom(sender:UIPinchGestureRecognizer) {
-        println(sender.scale)
+    @objc func handleZoom(sender:UIPinchGestureRecognizer) {
+        print(sender.scale)
         if sender.scale < 1 {
             rootNode.xScale -= 0.01
             rootNode.yScale -= 0.01
@@ -105,24 +103,24 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
             rootNode.yScale += 0.01
         }
         
-        println(rootNode.xScale)
-        println(rootNode.yScale)
+        print(rootNode.xScale)
+        print(rootNode.yScale)
     }
 
     func authenticateLocalPlayer() {
-        println("authing user")
-        var localPlayer = GKLocalPlayer()
-        localPlayer.authenticateHandler =  {(viewController:UIViewController!, error:NSError!) -> Void in
+        print("authing user")
+        let localPlayer = GKLocalPlayer()
+        localPlayer.authenticateHandler =  {(viewController:UIViewController!, error:Error!) -> Void in
             if(error != nil) {
-                println(error)
+                print(error ?? "no error")
             }
             if ((viewController) != nil) {
-                println("view controller launched")
-                self.view!.window!.rootViewController!.presentViewController(viewController, animated: true, completion: {
+                print("view controller launched")
+                self.view!.window!.rootViewController!.present(viewController, animated: true, completion: {
                     self.loadAchievements()
                 })
             } else {
-                self.showBanner("Welcome Back " + GKLocalPlayer.localPlayer().alias, message: nil)
+                self.showBanner(title: "Welcome Back " + GKLocalPlayer.local.alias, message: nil)
                 self.loadAchievements()
             }
         }
@@ -130,15 +128,13 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     }
     
     func loadAchievements() {
-        GKAchievement.loadAchievementsWithCompletionHandler { (loaded, error) -> Void in
+        GKAchievement.loadAchievements { (loaded, error) -> Void in
             if error != nil {
-                println(error)
+                print(error ?? "no error")
                 return
             }
-            for one in loaded {
-                if let oneAchievement = one as? GKAchievement {
-                    self.achievements[oneAchievement.identifier] = oneAchievement
-                }
+            for one in loaded ?? [] {
+                self.achievements[one.identifier] = one
             }
         }
     }
@@ -147,68 +143,68 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         award.percentComplete = Double(score * 100 / divisor)
         if lastScore != 0 {
             let lastPercentComplete = Double(lastScore * 100 / divisor)
-            var not_filled = achievements[award.identifier] != nil && achievements[award.identifier]?.completed == nil
+            let not_filled = achievements[award.identifier] != nil && achievements[award.identifier]?.isCompleted == nil
             if award.percentComplete >= 100.0 && lastPercentComplete < 100.0 && not_filled {
-                println("need to show something")
-                showBanner("Awarded " + displayName , message: nil)
+                print("need to show something")
+                showBanner(title: "Awarded " + displayName , message: nil)
             }
         }
     }
     
     func showBanner(title:String, message: String?) {
-        GKNotificationBanner.showBannerWithTitle(title, message: message, completionHandler: nil)
+        GKNotificationBanner.show(withTitle: title, message: message, completionHandler: nil)
     }
     
     
     func updateAchievements() {
-        let tempLifetime = NSUserDefaults.standardUserDefaults().integerForKey("lifetime_score") + score
+        let tempLifetime = UserDefaults.standard.integer(forKey:"lifetime_score") + score
         let matter1 = GKAchievement(identifier: "matter_collected_1")
-        updatePercentComplete(matter1, score: score, divisor: 5, lastScore: previousScore, displayName: "Matter Collected")
+        updatePercentComplete(award: matter1, score: score, divisor: 5, lastScore: previousScore, displayName: "Matter Collected")
         let star_destroyer = GKAchievement(identifier: "star_destroyer")
-        updatePercentComplete(star_destroyer, score: score, divisor: 100, lastScore: previousScore, displayName: "Star Destroyer")
+        updatePercentComplete(award: star_destroyer, score: score, divisor: 100, lastScore: previousScore, displayName: "Star Destroyer")
         let sun_crusher = GKAchievement(identifier: "sun_crusher")
-        updatePercentComplete(sun_crusher, score: score, divisor: 500, lastScore: previousScore, displayName: "Sun Crusher")
+        updatePercentComplete(award: sun_crusher, score: score, divisor: 500, lastScore: previousScore, displayName: "Sun Crusher")
         let world_devourer = GKAchievement(identifier: "world_devourer")
-        updatePercentComplete(world_devourer, score: score, divisor: 1000, lastScore: previousScore, displayName: "World Devourer")
+        updatePercentComplete(award: world_devourer, score: score, divisor: 1000, lastScore: previousScore, displayName: "World Devourer")
         let white_dwarf = GKAchievement(identifier: "star_size_1")
-        updatePercentComplete(white_dwarf, score: tempLifetime, divisor: 10, lastScore: previousLifetime, displayName: "White Dwarf")
+        updatePercentComplete(award: white_dwarf, score: tempLifetime, divisor: 10, lastScore: previousLifetime, displayName: "White Dwarf")
         let yellow_star = GKAchievement(identifier: "yellow_star")
-        updatePercentComplete(yellow_star, score: tempLifetime, divisor: 1000, lastScore: previousLifetime, displayName: "Yellow Star")
+        updatePercentComplete(award: yellow_star, score: tempLifetime, divisor: 1000, lastScore: previousLifetime, displayName: "Yellow Star")
         let red_giant = GKAchievement(identifier: "red_giant")
-        updatePercentComplete(red_giant, score: tempLifetime, divisor: 10000, lastScore: previousLifetime, displayName: "Red Giant")
+        updatePercentComplete(award: red_giant, score: tempLifetime, divisor: 10000, lastScore: previousLifetime, displayName: "Red Giant")
         let blue_giant = GKAchievement(identifier: "blue_giant")
-        updatePercentComplete(blue_giant, score: tempLifetime, divisor: 100000, lastScore: previousLifetime, displayName: "Blue Giant")
+        updatePercentComplete(award: blue_giant, score: tempLifetime, divisor: 100000, lastScore: previousLifetime, displayName: "Blue Giant")
         let pulsar = GKAchievement(identifier: "pulsar")
         pulsar.percentComplete = 0.0
         if tempLifetime > 1000000 {
             pulsar.percentComplete = 100.0
         }
         let achieved = [matter1, star_destroyer, sun_crusher, world_devourer, white_dwarf, yellow_star, red_giant, blue_giant, pulsar]
-        GKAchievement.reportAchievements(achieved, withCompletionHandler: nil)
+        GKAchievement.report(achieved, withCompletionHandler: nil)
         previousLifetime = tempLifetime
         previousScore = score
     }
     
-    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!)
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController)
     {
-        println("game center view finished")
+        print("game center view finished")
     }
     
     
     func tutorial() {
         
         // move node in for 1 sec
-        var randomPoint = CGPointMake(frame.midX, 0)
-        var randomRed = CGFloat(drand48() + 0.5)
-        var randomGreen = CGFloat(drand48() + 0.5)
-        var randomBlue = CGFloat(drand48() + 0.5)
-        var randomColor = UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
-        var newStar = Star(position: randomPoint, scene: self.rootNode, color:randomColor, mass:0, setInsideColor: nil)
+        let randomPoint = CGPoint(x: frame.midX, y: 0)
+        let randomRed = CGFloat(drand48() + 0.5)
+        let randomGreen = CGFloat(drand48() + 0.5)
+        let randomBlue = CGFloat(drand48() + 0.5)
+        let randomColor = UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
+        let newStar = Star(position: randomPoint, scene: self.rootNode, color:randomColor, mass:0, setInsideColor: nil)
         stars.insert(newStar)
-        let zoomOut = SKAction.scaleTo(0.2, duration: 0)
-        newStar.runAction(zoomOut)
-        let moveToCenter = SKAction.moveTo(CGPointMake(frame.midX, 100), duration: NSTimeInterval(1))
-        newStar.runAction(moveToCenter)
+        let zoomOut = SKAction.scale(by: 0.2, duration: 0)
+        newStar.run(action: zoomOut)
+        let moveToCenter = SKAction.move(to: CGPoint(x: frame.midX, y: 100), duration: TimeInterval(1))
+        newStar.run(action: moveToCenter)
         
         // show tap to destroy label
         tapToStartLabel = SKLabelNode(fontNamed: "Optima-ExtraBlack")
@@ -218,16 +214,16 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         // show arrow
         
         arrow_path1 = UIBezierPath()
-        arrow_path1?.moveToPoint(CGPointMake(self.frame.midX-50, 180))
-        arrow_path1?.addLineToPoint(CGPointMake(self.frame.midX, 150))
-        arrow_path1?.addLineToPoint(CGPointMake(self.frame.midX+50, 180))
-        arrow_path1?.closePath()
-        arrow1 = SKShapeNode(path: arrow_path1?.CGPath)
-        arrow1?.fillColor = UIColor.darkGrayColor()
+        arrow_path1?.move(to: CGPoint(x: self.frame.midX-50, y: 180))
+        arrow_path1?.addLine(to: CGPoint(x: self.frame.midX, y: 150))
+        arrow_path1?.addLine(to: CGPoint(x: self.frame.midX+50, y: 180))
+        arrow_path1?.close()
+        arrow1 = SKShapeNode(path: arrow_path1!.cgPath)
+        arrow1?.fillColor = UIColor.darkGray
         self.addChild(arrow1!)
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         
         if tapToStart && firstStarDestroyed {
@@ -236,15 +232,15 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
             instructionLabel2?.removeFromParent()
             tapToStart = false
             increaseTempo()
-            NSUserDefaults.standardUserDefaults().setInteger(1, forKey: "tutorial")
+            UserDefaults.standard.set(1, forKey: "tutorial")
         }
         
-        for touch in (touches as! Set<UITouch>) {
-            let location = touch.locationInNode(self.rootNode)
-            println("checking user touch at x: " + String(stringInterpolationSegment: location.x) + " y: " + String(stringInterpolationSegment: location.y))
+        for touch in touches {
+            let location = touch.location(in: self.rootNode)
+            print("checking user touch at x: " + String(describing: location.x) + " y: " + String(describing: location.y))
             for star in stars {
-                if star.hasLocation(location) {
-                    println("user got star:" + String(star.hashValue));
+                if star.hasLocation(location: location) {
+                    print("user got star:" + String(star.hashValue));
                     
                     if tapToStart {
                         arrow1?.removeFromParent()
@@ -259,23 +255,23 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
                         instructionLabel2!.position = CGPoint(x: self.frame.midX, y: 400)
                         self.addChild(instructionLabel2!)
                         arrow_path2 = UIBezierPath()
-                        arrow_path2?.moveToPoint(CGPointMake(self.frame.midX-50, 380))
-                        arrow_path2?.addLineToPoint(CGPointMake(self.frame.midX, 350))
-                        arrow_path2?.addLineToPoint(CGPointMake(self.frame.midX+50, 380))
-                        arrow_path2?.closePath()
-                        arrow2 = SKShapeNode(path: arrow_path2?.CGPath)
-                        arrow2?.fillColor = UIColor.darkGrayColor()
+                        arrow_path2?.move(to: CGPoint(x: self.frame.midX-50, y: 380))
+                        arrow_path2?.addLine(to: CGPoint(x: self.frame.midX, y: 350))
+                        arrow_path2?.addLine(to: CGPoint(x: self.frame.midX+50, y: 380))
+                        arrow_path2?.close()
+                        arrow2 = SKShapeNode(path: arrow_path2!.cgPath)
+                        arrow2?.fillColor = UIColor.darkGray
                         self.addChild(arrow2!)
                     }
                     
                     
-                    var newMatter1 = matterPool.getMatter(location, scene: self.rootNode, color: star.color, radius: 5, vector:CGVector(dx: 0, dy: 50))
+                    let newMatter1 = matterPool.getMatter(position: location, scene: self.rootNode, color: star.color, radius: 5, vector:CGVector(dx: 0, dy: 50))
                     matter.insert(newMatter1)
-                    var newMatter2 = matterPool.getMatter(location, scene: self.rootNode, color: star.color, radius: 5, vector:CGVector(dx: 50, dy: 0))
+                    let newMatter2 = matterPool.getMatter(position: location, scene: self.rootNode, color: star.color, radius: 5, vector:CGVector(dx: 50, dy: 0))
                     matter.insert(newMatter2)
-                    var newMatter3 = matterPool.getMatter(location, scene: self.rootNode, color: star.color, radius: 5, vector:CGVector(dx: -50, dy: 0))
+                    let newMatter3 = matterPool.getMatter(position: location, scene: self.rootNode, color: star.color, radius: 5, vector:CGVector(dx: -50, dy: 0))
                     matter.insert(newMatter3)
-                    var newMatter4 = matterPool.getMatter(location, scene: self.rootNode, color: star.color, radius: 5, vector:CGVector(dx: 0, dy: -50))
+                    let newMatter4 = matterPool.getMatter(position: location, scene: self.rootNode, color: star.color, radius: 5, vector:CGVector(dx: 0, dy: -50))
                     matter.insert(newMatter4)
 //
 //                    let newMatter5 = Matter(position: location, scene: self, color: star.color, radius: 5)
@@ -290,7 +286,7 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
 //                    let newMatter8 = Matter(position: location, scene: self, color: star.color, radius: 5)
 //                    newMatter8.square.physicsBody?.applyForce(CGVector(dx: -25, dy: 25))
 //                    matter.insert(newMatter8)
-                    println("matter created")
+                    print("matter created")
                     star.remove()
                     stars.remove(star)
                 }
@@ -302,12 +298,11 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     
     func increaseTempo(){
         
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(levelTime) * Double(NSEC_PER_SEC) * 2))
-        dispatch_after(time, dispatch_get_main_queue()) {
+        DispatchQueue.main.asyncAfter(deadline:  DispatchTime.now() + Double(levelTime) * 2) {
             self.increaseTempo()
         }
         
-        println("increasing tempo")
+        print("increasing tempo")
         tempo += 1
         if tempo > level {
             increaseLevel()
@@ -315,7 +310,7 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     }
     
     func increaseLevel(){
-        println("increasing level")
+        print("increasing level")
         tempo = 1
         level += 1
         levelTime *= 2
@@ -324,48 +319,48 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     func reportSingleScore(matter:Int) {
         let score = GKScore(leaderboardIdentifier: "single_run_matter")
         score.value = Int64(matter)
-        GKScore.reportScores([score], withCompletionHandler: { (error:NSError!) -> Void in
-            println("sent single score" + String(matter))
-            println(error)
+        GKScore.report([score], withCompletionHandler: { (error:Error!) -> Void in
+            print("sent single score" + String(matter))
+            print(error ?? "no error")
         })
     }
     
     func reportLifetimeScore(matter:Int) {
         let score = GKScore(leaderboardIdentifier: "lifetime_matter")
         score.value = Int64(matter)
-        GKScore.reportScores([score], withCompletionHandler: { (error:NSError!) -> Void in
-            println("sent lifetime score:" + String(matter))
-            println(error)
+        GKScore.report([score], withCompletionHandler: { (error:Error!) -> Void in
+            print("sent lifetime score:" + String(matter))
+            print(error ?? "no error")
         })
     }
    
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: CFTimeInterval) {
         
         
-        let center = CGPointMake(0, 0)
+        let center = CGPoint(x: 0, y: 0)
         if stars.count < level && !tapToStart {
-            println("need to generate new star")
-            var randomX = CGFloat(Int(arc4random()) % Int(frame.width)) - frame.midX
-            var randomY = CGFloat(Int(arc4random()) % 2 * Int(frame.height+200)) - 100 - frame.midY // Top or Bottom
-            var randomSpeed = Float(arc4random()) % 10 / 5 + 2
-            var randomPoint = CGPointMake(randomX, randomY)
-            var randomRed = CGFloat(drand48() + 0.5)
-            var randomGreen = CGFloat(drand48() + 0.5)
-            var randomBlue = CGFloat(drand48() + 0.5)
-            var randomColor = UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
-            var newStar = Star(position: randomPoint, scene: self.rootNode, color:randomColor, mass:0, setInsideColor: nil )
+            print("need to generate new star")
+            let randomX = CGFloat(Int(arc4random()) % Int(frame.width)) - frame.midX
+            let randomY = CGFloat(Int(arc4random()) % 2 * Int(frame.height+200)) - 100 - frame.midY // Top or Bottom
+            let randomSpeed = Float(arc4random()).truncatingRemainder(dividingBy: 10) / 5 + 2
+            let randomPoint = CGPoint(x: randomX, y: randomY)
+            let randomRed = CGFloat(drand48() + 0.5)
+            let randomGreen = CGFloat(drand48() + 0.5)
+            let randomBlue = CGFloat(drand48() + 0.5)
+            let randomColor = UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
+            let newStar = Star(position: randomPoint, scene: self.rootNode, color:randomColor, mass:0, setInsideColor: nil )
             stars.insert(newStar)
-            let zoomOut = SKAction.scaleTo(0.2, duration: 0)
-            newStar.runAction(zoomOut)
-            let moveToCenter = SKAction.moveTo(center, duration: NSTimeInterval(randomSpeed))
-            newStar.runAction(moveToCenter)
-            println("new star generated, stars size: " + String(stars.count))
+            let zoomOut = SKAction.scale(by: 0.2, duration: 0)
+            newStar.run(action: zoomOut)
+            let moveToCenter = SKAction.move(to: center, duration: TimeInterval(randomSpeed))
+            newStar.run(action: moveToCenter)
+            print("new star generated, stars size: " + String(stars.count))
         }
         
         myStar.updateRadius()
         for star in stars {
-            if star.distanceFrom(center) < star.radius + myStar.radius {
-                println("hit center with star: " + String(star.hashValue))
+            if star.distanceFrom(location: center) < star.radius + myStar.radius {
+                print("hit center with star: \(star)")
                 star.remove()
                 stars.remove(star)
                 self.runEnded()
@@ -373,15 +368,15 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         }
         
         for piece in matter {
-            if Int(piece.distanceFrom(center)) < Int(piece.radius) + Int(myStar.radius) {
-                println("collected some matter")
+            if Int(piece.distanceFrom(location: center)) < Int(piece.radius) + Int(myStar.radius) {
+                print("collected some matter")
                 updateAchievements()
                 matter.remove(piece)
-                matterPool.returnMatter(piece)
+                matterPool.returnMatter(usedMatter: piece)
                 score+=1
                 if score % 100 == 0 {
-                    let grow = SKAction.scaleBy(1.10, duration: 2)
-                    myStar.runAction(grow)
+                    let grow = SKAction.scale(by: 1.10, duration: 2)
+                    myStar.run(action: grow)
                 }
                 matterCollected!.text = "Matter: " + String(score)
             }
@@ -390,23 +385,23 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
 
     func runEnded() {
         if let mainView = view {
-            let gameOverScene = GameOverScene.unarchiveFromFile("GameOverScene") as! GameOverScene
+            let gameOverScene = GameOverScene.unarchiveFromFile(file: "GameOverScene") as! GameOverScene
             
-            lifetime_score = NSUserDefaults.standardUserDefaults().integerForKey("lifetime_score") + score
-            NSUserDefaults.standardUserDefaults().setInteger(lifetime_score, forKey: "lifetime_score")
+            lifetime_score = UserDefaults.standard.integer(forKey:"lifetime_score") + score
+            UserDefaults.standard.set(lifetime_score, forKey: "lifetime_score")
             
-            if score > NSUserDefaults.standardUserDefaults().integerForKey("highscore") {
-                NSUserDefaults.standardUserDefaults().setInteger(score, forKey: "highscore")
+            if score > UserDefaults.standard.integer(forKey:"highscore") {
+                UserDefaults.standard.set(score, forKey: "highscore")
             }
             
             gameOverScene.lifetime = lifetime_score
             gameOverScene.gameScore = score
-            gameOverScene.highScore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
+            gameOverScene.highScore = UserDefaults.standard.integer(forKey:"highscore")
             mainView.presentScene(gameOverScene)
             
             
-            self.reportLifetimeScore(lifetime_score)
-            self.reportSingleScore(score)
+            self.reportLifetimeScore(matter: lifetime_score)
+            self.reportSingleScore(matter: score)
         }
     }
 }
@@ -428,12 +423,12 @@ class MatterPool {
     init() {
     }
     
-    func getMatter(position:CGPoint, scene:SKNode, color:UIColor, radius:Int, vector:CGVector) -> Matter {
+    func getMatter(position: CGPoint, scene:SKNode, color:UIColor, radius:Int, vector:CGVector) -> Matter {
         var matter:Matter?
         if freeMatter.count > 0 {
             matter = freeMatter.first
-            println("reusing matter" + String(stringInterpolationSegment: matter?.uniqueID))
-            matter?.setChars(position, scene: scene, color: color)
+            print("reusing matter" + String(describing: matter?.uniqueID))
+            matter?.setChars(position: position, scene: scene, color: color)
             matter!.square.physicsBody?.applyForce(vector)
             freeMatter.remove(matter!)
         } else {
@@ -455,7 +450,7 @@ class Matter : Hashable {
     let uniqueID: Int
     
     init(position: CGPoint, scene: SKNode, color: UIColor) {
-        self.square = SKShapeNode(rectOfSize: CGSize(width: radius, height: radius))
+        self.square = SKShapeNode(rectOf: CGSize(width: radius, height: radius))
         self.square.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(radius))
         self.square.physicsBody!.linearDamping = 0.75
         self.square.physicsBody!.angularDamping = 0.75
@@ -464,7 +459,8 @@ class Matter : Hashable {
         self.square.fillColor = color
         scene.addChild(self.square)
         
-        self.uniqueID = last++
+        self.uniqueID = last
+        last+=1
     }
     
     func setChars(position: CGPoint, scene: SKNode, color: UIColor) {
@@ -488,14 +484,12 @@ class Matter : Hashable {
         square.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
     }
     
-    func runAction(action: SKAction) {
-        square.runAction(action)
+    func run(action: SKAction) {
+        square.run(action)
     }
     
-    var hashValue:Int {
-        get {
-            return uniqueID
-        }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.uniqueID)
     }
 }
 
@@ -513,7 +507,7 @@ class Star : Hashable {
         
         self.field = SKFieldNode.radialGravityField()
         self.field.strength = Float(mass)
-        self.field.enabled = true
+        self.field.isEnabled = true
         self.field.position = position
         scene.addChild(field)
         
@@ -524,18 +518,19 @@ class Star : Hashable {
         self.circle.position = position
         self.circle.strokeColor = color
         self.circle.lineWidth = 5
-        self.circle.fillColor = SKColor.clearColor()
+        self.circle.fillColor = SKColor.clear
         scene.addChild(self.circle)
-        self.star = SKEmitterNode(fileNamed: "StarParticle")
+        self.star = SKEmitterNode(fileNamed: "StarParticle")!
         if setInsideColor != nil {
             self.star.particleColorSequence = nil
-            self.star.particleColor = setInsideColor
+            self.star.particleColor = setInsideColor ?? .black
         }
         self.star.position = position
         scene.addChild(self.star)
-        let zoomIn = SKAction.scaleTo(2.0, duration: 0)
-        self.star.runAction(zoomIn)
-        self.uniqueID = last++
+        let zoomIn = SKAction.scale(by: 2.0, duration: 0)
+        self.star.run(zoomIn)
+        self.uniqueID = last
+        last += 1
     }
     
     func hasLocation(location: CGPoint) -> Bool {
@@ -568,14 +563,12 @@ class Star : Hashable {
         radius = circle.frame.width/2
     }
     
-    func runAction(action: SKAction) {
-        circle.runAction(action)
-        star.runAction(action)
+    func run(action: SKAction) {
+        circle.run(action)
+        star.run(action)
     }
     
-    var hashValue : Int {
-        get {
-            return uniqueID
-        }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.uniqueID)
     }
 }
