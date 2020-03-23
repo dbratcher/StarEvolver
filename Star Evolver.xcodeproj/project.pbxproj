@@ -7,53 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A778487242847FD00B1C27C /* GameOverScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3A778484242847FD00B1C27C /* GameOverScene.sks */; };
+		3A778488242847FD00B1C27C /* StarParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3A778485242847FD00B1C27C /* StarParticle.sks */; };
+		3A778489242847FD00B1C27C /* TutorialOverlay.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3A778486242847FD00B1C27C /* TutorialOverlay.sks */; };
+		3A7784A92428480A00B1C27C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A77848B2428480A00B1C27C /* LaunchScreen.xib */; };
+		3A7784AA2428480A00B1C27C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A77848D2428480A00B1C27C /* Main.storyboard */; };
+		3A7784BF2428480A00B1C27C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A7784A62428480A00B1C27C /* Images.xcassets */; };
+		3A7784C02428480A00B1C27C /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A7784A72428480A00B1C27C /* star.png */; };
 		3ACD3CC523FA5725006865B8 /* Matter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3CC423FA5725006865B8 /* Matter.swift */; };
 		3ACD3CC723FA5754006865B8 /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACD3CC623FA5754006865B8 /* Star.swift */; };
 		EA167D091AEC3628005A6A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA167D081AEC3628005A6A0C /* AppDelegate.swift */; };
 		EA167D0D1AEC3628005A6A0C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA167D0C1AEC3628005A6A0C /* GameScene.swift */; };
 		EA167D0F1AEC3628005A6A0C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA167D0E1AEC3628005A6A0C /* GameViewController.swift */; };
-		EA167D121AEC3628005A6A0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA167D101AEC3628005A6A0C /* Main.storyboard */; };
-		EA167D141AEC3628005A6A0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA167D131AEC3628005A6A0C /* Images.xcassets */; };
-		EA167D171AEC3628005A6A0C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA167D151AEC3628005A6A0C /* LaunchScreen.xib */; };
-		EA167D231AEC3628005A6A0C /* Star_EvolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA167D221AEC3628005A6A0C /* Star_EvolverTests.swift */; };
-		EA167D2E1AEC43E1005A6A0C /* StarParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = EA167D2C1AEC43E1005A6A0C /* StarParticle.sks */; };
-		EA167D311AF0783B005A6A0C /* GameOverScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = EA167D301AF0783B005A6A0C /* GameOverScene.sks */; };
 		EA167D331AF078F3005A6A0C /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA167D321AF078F3005A6A0C /* GameOverScene.swift */; };
-		EA321DC71B07D850004E691A /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = EA321DC61B07D850004E691A /* star.png */; };
 		EAEAC6C81B053FB700D355DD /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAEAC6C71B053FB700D355DD /* GameKit.framework */; };
-		EAEAD2C11AFDB8DD00D4BF4E /* TutorialOverlay.sks in Resources */ = {isa = PBXBuildFile; fileRef = EAEAD2C01AFDB8DD00D4BF4E /* TutorialOverlay.sks */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		EA167D1D1AEC3628005A6A0C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA167CFB1AEC3628005A6A0C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EA167D021AEC3628005A6A0C;
-			remoteInfo = "Star Evolver";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		3A778484242847FD00B1C27C /* GameOverScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameOverScene.sks; sourceTree = "<group>"; };
+		3A778485242847FD00B1C27C /* StarParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StarParticle.sks; sourceTree = "<group>"; };
+		3A778486242847FD00B1C27C /* TutorialOverlay.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TutorialOverlay.sks; sourceTree = "<group>"; };
+		3A77848C2428480A00B1C27C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		3A77848E2428480A00B1C27C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3A7784A62428480A00B1C27C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		3A7784A72428480A00B1C27C /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
+		3A7784A82428480A00B1C27C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3ACD3CC423FA5725006865B8 /* Matter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matter.swift; sourceTree = "<group>"; };
 		3ACD3CC623FA5754006865B8 /* Star.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		EA167D031AEC3628005A6A0C /* Star Evolver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Star Evolver.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA167D071AEC3628005A6A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA167D081AEC3628005A6A0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA167D0C1AEC3628005A6A0C /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		EA167D0E1AEC3628005A6A0C /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		EA167D111AEC3628005A6A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		EA167D131AEC3628005A6A0C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		EA167D161AEC3628005A6A0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		EA167D1C1AEC3628005A6A0C /* Star EvolverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Star EvolverTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA167D211AEC3628005A6A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EA167D221AEC3628005A6A0C /* Star_EvolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Star_EvolverTests.swift; sourceTree = "<group>"; };
-		EA167D2C1AEC43E1005A6A0C /* StarParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StarParticle.sks; sourceTree = "<group>"; };
-		EA167D301AF0783B005A6A0C /* GameOverScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameOverScene.sks; sourceTree = "<group>"; };
 		EA167D321AF078F3005A6A0C /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
-		EA321DC61B07D850004E691A /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		EAEAC6C71B053FB700D355DD /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
-		EAEAD2C01AFDB8DD00D4BF4E /* TutorialOverlay.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TutorialOverlay.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,23 +51,38 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA167D191AEC3628005A6A0C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A778483242847FD00B1C27C /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				3A778484242847FD00B1C27C /* GameOverScene.sks */,
+				3A778485242847FD00B1C27C /* StarParticle.sks */,
+				3A778486242847FD00B1C27C /* TutorialOverlay.sks */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		3A77848A2428480A00B1C27C /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				3A7784A62428480A00B1C27C /* Images.xcassets */,
+				3A7784A82428480A00B1C27C /* Info.plist */,
+				3A77848B2428480A00B1C27C /* LaunchScreen.xib */,
+				3A77848D2428480A00B1C27C /* Main.storyboard */,
+				3A7784A72428480A00B1C27C /* star.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		3ACD3CC323FA5714006865B8 /* Stars */ = {
 			isa = PBXGroup;
 			children = (
 				3ACD3CC423FA5725006865B8 /* Matter.swift */,
 				3ACD3CC623FA5754006865B8 /* Star.swift */,
 			);
-			name = Stars;
+			path = Stars;
 			sourceTree = "<group>";
 		};
 		EA167CFA1AEC3628005A6A0C = {
@@ -89,7 +90,6 @@
 			children = (
 				EAEAC6C71B053FB700D355DD /* GameKit.framework */,
 				EA167D051AEC3628005A6A0C /* Star Evolver */,
-				EA167D1F1AEC3628005A6A0C /* Star EvolverTests */,
 				EA167D041AEC3628005A6A0C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,7 +98,6 @@
 			isa = PBXGroup;
 			children = (
 				EA167D031AEC3628005A6A0C /* Star Evolver.app */,
-				EA167D1C1AEC3628005A6A0C /* Star EvolverTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -106,46 +105,15 @@
 		EA167D051AEC3628005A6A0C /* Star Evolver */ = {
 			isa = PBXGroup;
 			children = (
-				3ACD3CC323FA5714006865B8 /* Stars */,
-				EA321DC61B07D850004E691A /* star.png */,
 				EA167D081AEC3628005A6A0C /* AppDelegate.swift */,
-				EA167D0C1AEC3628005A6A0C /* GameScene.swift */,
-				EA167D301AF0783B005A6A0C /* GameOverScene.sks */,
+				3A77848A2428480A00B1C27C /* Assets */,
 				EA167D321AF078F3005A6A0C /* GameOverScene.swift */,
-				EA167D2C1AEC43E1005A6A0C /* StarParticle.sks */,
+				EA167D0C1AEC3628005A6A0C /* GameScene.swift */,
 				EA167D0E1AEC3628005A6A0C /* GameViewController.swift */,
-				EA167D101AEC3628005A6A0C /* Main.storyboard */,
-				EA167D131AEC3628005A6A0C /* Images.xcassets */,
-				EA167D151AEC3628005A6A0C /* LaunchScreen.xib */,
-				EA167D061AEC3628005A6A0C /* Supporting Files */,
-				EAEAD2C01AFDB8DD00D4BF4E /* TutorialOverlay.sks */,
+				3A778483242847FD00B1C27C /* Scenes */,
+				3ACD3CC323FA5714006865B8 /* Stars */,
 			);
 			path = "Star Evolver";
-			sourceTree = "<group>";
-		};
-		EA167D061AEC3628005A6A0C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EA167D071AEC3628005A6A0C /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		EA167D1F1AEC3628005A6A0C /* Star EvolverTests */ = {
-			isa = PBXGroup;
-			children = (
-				EA167D221AEC3628005A6A0C /* Star_EvolverTests.swift */,
-				EA167D201AEC3628005A6A0C /* Supporting Files */,
-			);
-			path = "Star EvolverTests";
-			sourceTree = "<group>";
-		};
-		EA167D201AEC3628005A6A0C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EA167D211AEC3628005A6A0C /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,24 +136,6 @@
 			productReference = EA167D031AEC3628005A6A0C /* Star Evolver.app */;
 			productType = "com.apple.product-type.application";
 		};
-		EA167D1B1AEC3628005A6A0C /* Star EvolverTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EA167D291AEC3628005A6A0C /* Build configuration list for PBXNativeTarget "Star EvolverTests" */;
-			buildPhases = (
-				EA167D181AEC3628005A6A0C /* Sources */,
-				EA167D191AEC3628005A6A0C /* Frameworks */,
-				EA167D1A1AEC3628005A6A0C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				EA167D1E1AEC3628005A6A0C /* PBXTargetDependency */,
-			);
-			name = "Star EvolverTests";
-			productName = "Star EvolverTests";
-			productReference = EA167D1C1AEC3628005A6A0C /* Star EvolverTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -204,10 +154,6 @@
 							};
 						};
 					};
-					EA167D1B1AEC3628005A6A0C = {
-						CreatedOnToolsVersion = 6.3.1;
-						TestTargetID = EA167D021AEC3628005A6A0C;
-					};
 				};
 			};
 			buildConfigurationList = EA167CFE1AEC3628005A6A0C /* Build configuration list for PBXProject "Star Evolver" */;
@@ -224,7 +170,6 @@
 			projectRoot = "";
 			targets = (
 				EA167D021AEC3628005A6A0C /* Star Evolver */,
-				EA167D1B1AEC3628005A6A0C /* Star EvolverTests */,
 			);
 		};
 /* End PBXProject section */
@@ -234,20 +179,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA167D171AEC3628005A6A0C /* LaunchScreen.xib in Resources */,
-				EA167D2E1AEC43E1005A6A0C /* StarParticle.sks in Resources */,
-				EAEAD2C11AFDB8DD00D4BF4E /* TutorialOverlay.sks in Resources */,
-				EA167D141AEC3628005A6A0C /* Images.xcassets in Resources */,
-				EA321DC71B07D850004E691A /* star.png in Resources */,
-				EA167D311AF0783B005A6A0C /* GameOverScene.sks in Resources */,
-				EA167D121AEC3628005A6A0C /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EA167D1A1AEC3628005A6A0C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				3A7784A92428480A00B1C27C /* LaunchScreen.xib in Resources */,
+				3A7784C02428480A00B1C27C /* star.png in Resources */,
+				3A7784AA2428480A00B1C27C /* Main.storyboard in Resources */,
+				3A7784BF2428480A00B1C27C /* Images.xcassets in Resources */,
+				3A778487242847FD00B1C27C /* GameOverScene.sks in Resources */,
+				3A778488242847FD00B1C27C /* StarParticle.sks in Resources */,
+				3A778489242847FD00B1C27C /* TutorialOverlay.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,39 +205,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA167D181AEC3628005A6A0C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EA167D231AEC3628005A6A0C /* Star_EvolverTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		EA167D1E1AEC3628005A6A0C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EA167D021AEC3628005A6A0C /* Star Evolver */;
-			targetProxy = EA167D1D1AEC3628005A6A0C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		EA167D101AEC3628005A6A0C /* Main.storyboard */ = {
+		3A77848B2428480A00B1C27C /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EA167D111AEC3628005A6A0C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		EA167D151AEC3628005A6A0C /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EA167D161AEC3628005A6A0C /* Base */,
+				3A77848C2428480A00B1C27C /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		3A77848D2428480A00B1C27C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3A77848E2428480A00B1C27C /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -334,7 +256,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -353,7 +274,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -392,7 +313,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -404,7 +324,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -420,7 +340,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = "Star Evolver/Info.plist";
+				INFOPLIST_FILE = "Star Evolver/Assets/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.drewbratcher.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -434,47 +354,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = "Star Evolver/Info.plist";
+				INFOPLIST_FILE = "Star Evolver/Assets/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.drewbratcher.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-			};
-			name = Release;
-		};
-		EA167D2A1AEC3628005A6A0C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Star EvolverTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Bratcher.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Star Evolver.app/Star Evolver";
-			};
-			name = Debug;
-		};
-		EA167D2B1AEC3628005A6A0C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Star EvolverTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Drew-Bratcher.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Star Evolver.app/Star Evolver";
 			};
 			name = Release;
 		};
@@ -495,15 +379,6 @@
 			buildConfigurations = (
 				EA167D271AEC3628005A6A0C /* Debug */,
 				EA167D281AEC3628005A6A0C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EA167D291AEC3628005A6A0C /* Build configuration list for PBXNativeTarget "Star EvolverTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EA167D2A1AEC3628005A6A0C /* Debug */,
-				EA167D2B1AEC3628005A6A0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
