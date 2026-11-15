@@ -73,7 +73,9 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         
         matterCollected = SKLabelNode(fontNamed: "Optima-ExtraBlack")
         matterCollected!.text = "Matter: " + String(score)
-        matterCollected!.position = CGPoint(x: self.frame.midX, y: 520)
+        // Pin the counter near the top, below the status bar / Dynamic Island.
+        let topInset = view.safeAreaInsets.top
+        matterCollected!.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - topInset - 30)
         matterCollected?.fontSize = 15
         self.addChild(matterCollected!)
 //
@@ -84,15 +86,28 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
 //        } else {
 //            increaseTempo()
 //        }
-        
+        // The tutorial is disabled above, which also removed the only call that
+        // starts the difficulty ramp. Start it directly.
+        increaseTempo()
+
         // handle zooming
-        
+
         let zoomHandler = UIPinchGestureRecognizer(target: self, action: #selector(handleZoom(sender:)))
         self.view?.addGestureRecognizer(zoomHandler)
-        
+        self.zoomHandler = zoomHandler
+
         self.addChild(self.rootNode)
     }
-    
+
+    private var zoomHandler: UIPinchGestureRecognizer?
+
+    override func willMove(from view: SKView) {
+        // Don't leave this scene's pinch recognizer on the view after a restart.
+        if let zoomHandler = zoomHandler {
+            view.removeGestureRecognizer(zoomHandler)
+        }
+    }
+
     @objc func handleZoom(sender:UIPinchGestureRecognizer) {
         print(sender.scale)
         if sender.scale < 1 {
@@ -299,10 +314,13 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     
     func increaseTempo(){
         
-        DispatchQueue.main.asyncAfter(deadline:  DispatchTime.now() + Double(levelTime) * 2) {
-            self.increaseTempo()
-        }
-        
+        // Scene action instead of a dispatch timer: it stops when the scene goes away,
+        // so finished runs don't keep ticking (and stay in memory) after a restart.
+        run(SKAction.sequence([
+            SKAction.wait(forDuration: Double(levelTime) * 2),
+            SKAction.run { [weak self] in self?.increaseTempo() }
+        ]), withKey: "tempo")
+
         print("increasing tempo")
         tempo += 1
         if tempo > level {
@@ -387,7 +405,9 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     func runEnded() {
         if let mainView = view {
             let gameOverScene = GameOverScene.unarchiveFromFile(file: "GameOverScene") as! GameOverScene
-            
+            // The .sks is laid out at 768x1024; fit it to the screen instead of cropping it.
+            gameOverScene.scaleMode = .aspectFit
+
             lifetime_score = UserDefaults.standard.integer(forKey:"lifetime_score") + score
             UserDefaults.standard.set(lifetime_score, forKey: "lifetime_score")
             

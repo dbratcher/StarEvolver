@@ -8,15 +8,16 @@
 
 import UIKit
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
-
-    func applicationDidFinishLaunching(_ application: UIApplication) {
-        print("App Launched")
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        return true
     }
-
-
 }
 
+/// Scene lifecycle is required on current iOS. The window and root view
+/// controller come from Main.storyboard via the scene manifest in Info.plist.
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    var window: UIWindow?
+}

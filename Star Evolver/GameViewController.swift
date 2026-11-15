@@ -17,9 +17,14 @@ extension SKNode {
 
 class GameViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    private var presentedInitialScene = false
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // Wait for layout so the scene gets the real screen size, not the storyboard's.
+        guard !presentedInitialScene else { return }
+        presentedInitialScene = true
+
         let scene = GameScene(size: view.bounds.size)
 
         let skView = self.view as! SKView
@@ -29,8 +34,8 @@ class GameViewController: UIViewController {
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         skView.ignoresSiblingOrder = false
         
-        /* Set the scale mode to scale to fit the window */
-        scene.scaleMode = .aspectFit
+        /* Match the scale mode used when restarting from the game over screen */
+        scene.scaleMode = .resizeFill
         
         skView.presentScene(scene)
     }
