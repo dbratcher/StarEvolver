@@ -182,15 +182,27 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     }
 
     func showLeaderboardAndAchievements(showLeaderboard:Bool) {
-        print("checkout leaderboards or achievements")
-        let view = GKGameCenterViewController()
-        view.gameCenterDelegate = self
-        if showLeaderboard {
-            view.viewState = GKGameCenterViewControllerState.leaderboards
-            view.leaderboardIdentifier = "single_run_matter"
-        } else {
-            view.viewState = GKGameCenterViewControllerState.achievements
+        guard let presenter = self.view?.window?.rootViewController else { return }
+
+        guard GKLocalPlayer.local.isAuthenticated else {
+            // GameKit won't show leaderboards to a signed-out player, so say why.
+            let alert = UIAlertController(
+                title: "Game Center",
+                message: "Sign in to Game Center in Settings to see leaderboards and awards.",
+                preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            presenter.present(alert, animated: true)
+            return
         }
-        self.view!.window!.rootViewController!.present(view, animated: true, completion: nil)
+
+        let gameCenter: GKGameCenterViewController
+        if showLeaderboard {
+            gameCenter = GKGameCenterViewController(leaderboardID: "single_run_matter",
+                                                    playerScope: .global, timeScope: .allTime)
+        } else {
+            gameCenter = GKGameCenterViewController(state: .achievements)
+        }
+        gameCenter.gameCenterDelegate = self
+        presenter.present(gameCenter, animated: true)
     }
 }

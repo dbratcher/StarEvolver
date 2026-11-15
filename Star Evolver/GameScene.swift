@@ -34,7 +34,8 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     var rootNode = SKNode()
     
     override func didMove(to view: SKView) {
-//        authenticateLocalPlayer()
+        // Game Center sign-in happens once in GameViewController.
+        if GKLocalPlayer.local.isAuthenticated { loadAchievements() }
         self.physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
         self.removeAllChildren()
         self.removeAllActions()
@@ -120,25 +121,6 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         print(rootNode.yScale)
     }
 
-    func authenticateLocalPlayer() {
-        print("authing user")
-        let localPlayer = GKLocalPlayer()
-        localPlayer.authenticateHandler =  {(viewController:UIViewController!, error:Error!) -> Void in
-            if(error != nil) {
-                print(error ?? "no error")
-            }
-            if ((viewController) != nil) {
-                print("view controller launched")
-                self.view!.window!.rootViewController!.present(viewController, animated: true, completion: {
-                    self.loadAchievements()
-                })
-            } else {
-                self.showBanner(title: "Welcome Back " + GKLocalPlayer.local.alias, message: nil)
-                self.loadAchievements()
-            }
-        }
-        
-    }
     
     func loadAchievements() {
         GKAchievement.loadAchievements { (loaded, error) -> Void in
@@ -193,7 +175,9 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
             pulsar.percentComplete = 100.0
         }
         let achieved = [matter1, star_destroyer, sun_crusher, world_devourer, white_dwarf, yellow_star, red_giant, blue_giant, pulsar]
-        GKAchievement.report(achieved, withCompletionHandler: nil)
+        if GKLocalPlayer.local.isAuthenticated {
+            GKAchievement.report(achieved, withCompletionHandler: nil)
+        }
         previousLifetime = tempLifetime
         previousScore = score
     }
@@ -339,21 +323,19 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     }
     
     func reportSingleScore(matter:Int) {
-        let score = GKScore(leaderboardIdentifier: "single_run_matter")
-        score.value = Int64(matter)
-        GKScore.report([score], withCompletionHandler: { (error:Error!) -> Void in
-            print("sent single score" + String(matter))
-            print(error ?? "no error")
-        })
+        submitScore(matter, leaderboardID: "single_run_matter")
     }
-    
+
     func reportLifetimeScore(matter:Int) {
-        let score = GKScore(leaderboardIdentifier: "lifetime_matter")
-        score.value = Int64(matter)
-        GKScore.report([score], withCompletionHandler: { (error:Error!) -> Void in
-            print("sent lifetime score:" + String(matter))
-            print(error ?? "no error")
-        })
+        submitScore(matter, leaderboardID: "lifetime_matter")
+    }
+
+    private func submitScore(_ value: Int, leaderboardID: String) {
+        guard GKLocalPlayer.local.isAuthenticated else { return }
+        GKLeaderboard.submitScore(value, context: 0, player: GKLocalPlayer.local,
+                                  leaderboardIDs: [leaderboardID]) { error in
+            print("sent \(leaderboardID) score \(value): \(String(describing: error))")
+        }
     }
    
     override func update(_ currentTime: CFTimeInterval) {

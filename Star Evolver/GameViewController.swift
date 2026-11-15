@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import GameKit
 
 extension SKNode {
     class func unarchiveFromFile(file : String) -> SKNode? {
@@ -18,6 +19,24 @@ extension SKNode {
 class GameViewController: UIViewController {
 
     private var presentedInitialScene = false
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        authenticateGameCenter()
+    }
+
+    /// Sign in to Game Center once per launch. GameKit shows its own
+    /// "Welcome back" banner, or hands us a sign-in screen to present.
+    private func authenticateGameCenter() {
+        guard GKLocalPlayer.local.authenticateHandler == nil else { return }
+        GKLocalPlayer.local.authenticateHandler = { [weak self] signInController, error in
+            if let signInController = signInController {
+                self?.present(signInController, animated: true)
+            } else if let error = error {
+                print("Game Center sign-in failed: \(error.localizedDescription)")
+            }
+        }
+    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
