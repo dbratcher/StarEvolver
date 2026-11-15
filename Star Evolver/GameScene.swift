@@ -24,9 +24,8 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     var tapToStartLabel: SKLabelNode?
     var instructionLabel: SKLabelNode?
     var instructionLabel2: SKLabelNode?
+    var beginLabel: SKLabelNode?
     var matterCollected: SKLabelNode?
-    var arrow_path1: UIBezierPath?
-    var arrow_path2: UIBezierPath?
     var arrow1: SKShapeNode?
     var arrow2: SKShapeNode?
     var previousLifetime = 0
@@ -78,17 +77,15 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
         matterCollected!.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - topInset - 30)
         matterCollected?.fontSize = 15
         self.addChild(matterCollected!)
-//
-//        let ranTutorial = UserDefaults.standard.integer(forKey:"tutorial")
-//        if ranTutorial == 0 {
-//            tapToStart = true
-//            tutorial()
-//        } else {
-//            increaseTempo()
-//        }
-        // The tutorial is disabled above, which also removed the only call that
-        // starts the difficulty ramp. Start it directly.
-        increaseTempo()
+        // First run (or after tapping Tutorial on game over): show the tutorial.
+        // The ramp starts once the player finishes it.
+        let ranTutorial = UserDefaults.standard.integer(forKey:"tutorial")
+        if ranTutorial == 0 {
+            tapToStart = true
+            tutorial()
+        } else {
+            increaseTempo()
+        }
 
         // handle zooming
 
@@ -207,36 +204,52 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
     }
     
     
+    // Tutorial star stops this far above your star (rootNode coordinates, origin = screen center).
+    let tutorialStarOffset: CGFloat = 170
+
     func tutorial() {
-        
-        // move node in for 1 sec
-        let randomPoint = CGPoint(x: frame.midX, y: 0)
+        // Fly a star in from the top and park it above the player's star.
+        // Stars live in rootNode, whose origin is the screen center.
+        let startPoint = CGPoint(x: 0, y: frame.height / 2 + 60)
         let randomRed = CGFloat(drand48() + 0.5)
         let randomGreen = CGFloat(drand48() + 0.5)
         let randomBlue = CGFloat(drand48() + 0.5)
         let randomColor = UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
-        let newStar = Star(position: randomPoint, scene: self.rootNode, color:randomColor, mass:0, setInsideColor: nil)
+        let newStar = Star(position: startPoint, scene: self.rootNode, color:randomColor, mass:0, setInsideColor: nil)
         stars.insert(newStar)
         let zoomOut = SKAction.scale(by: 0.2, duration: 0)
         newStar.run(action: zoomOut)
-        let moveToCenter = SKAction.move(to: CGPoint(x: frame.midX, y: 100), duration: TimeInterval(1))
-        newStar.run(action: moveToCenter)
-        
-        // show tap to destroy label
-        tapToStartLabel = SKLabelNode(fontNamed: "Optima-ExtraBlack")
-        tapToStartLabel!.text = "Tap To Destroy"
-        tapToStartLabel!.position = CGPoint(x: self.frame.midX, y: 200)
-        self.addChild(tapToStartLabel!)
-        // show arrow
-        
-        arrow_path1 = UIBezierPath()
-        arrow_path1?.move(to: CGPoint(x: self.frame.midX-50, y: 180))
-        arrow_path1?.addLine(to: CGPoint(x: self.frame.midX, y: 150))
-        arrow_path1?.addLine(to: CGPoint(x: self.frame.midX+50, y: 180))
-        arrow_path1?.close()
-        arrow1 = SKShapeNode(path: arrow_path1!.cgPath)
-        arrow1?.fillColor = UIColor.darkGray
-        self.addChild(arrow1!)
+        let moveIn = SKAction.move(to: CGPoint(x: 0, y: tutorialStarOffset), duration: TimeInterval(1))
+        newStar.run(action: moveIn)
+
+        // Labels and arrows live in scene coordinates.
+        let starY = frame.midY + tutorialStarOffset
+        tapToStartLabel = makeTutorialLabel("Tap To Destroy", y: starY + 95)
+        arrow1 = makeDownArrow(tipY: starY + 40)
+    }
+
+    func makeTutorialLabel(_ text: String, y: CGFloat, fontSize: CGFloat = 28) -> SKLabelNode {
+        let label = SKLabelNode(fontNamed: "Optima-ExtraBlack")
+        label.text = text
+        label.fontSize = fontSize
+        label.fontColor = .white
+        label.position = CGPoint(x: frame.midX, y: y)
+        addChild(label)
+        return label
+    }
+
+    /// A small downward-pointing triangle whose tip sits at tipY.
+    func makeDownArrow(tipY: CGFloat) -> SKShapeNode {
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: frame.midX - 25, y: tipY + 25))
+        path.addLine(to: CGPoint(x: frame.midX, y: tipY))
+        path.addLine(to: CGPoint(x: frame.midX + 25, y: tipY + 25))
+        path.close()
+        let arrow = SKShapeNode(path: path.cgPath)
+        arrow.fillColor = .lightGray
+        arrow.strokeColor = .lightGray
+        addChild(arrow)
+        return arrow
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -246,6 +259,7 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
             arrow2?.removeFromParent()
             instructionLabel?.removeFromParent()
             instructionLabel2?.removeFromParent()
+            beginLabel?.removeFromParent()
             tapToStart = false
             increaseTempo()
             UserDefaults.standard.set(1, forKey: "tutorial")
@@ -262,22 +276,11 @@ class GameScene: SKScene, GKGameCenterControllerDelegate {
                         arrow1?.removeFromParent()
                         tapToStartLabel?.removeFromParent()
                         firstStarDestroyed = true
-                        instructionLabel = SKLabelNode(fontNamed: "Optima-ExtraBlack")
-                        instructionLabel!.text = "Collect Matter"
-                        instructionLabel!.position = CGPoint(x: self.frame.midX, y: 150)
-                        self.addChild(instructionLabel!)
-                        instructionLabel2 = SKLabelNode(fontNamed: "Optima-ExtraBlack")
-                        instructionLabel2!.text = "Protect Your Star"
-                        instructionLabel2!.position = CGPoint(x: self.frame.midX, y: 400)
-                        self.addChild(instructionLabel2!)
-                        arrow_path2 = UIBezierPath()
-                        arrow_path2?.move(to: CGPoint(x: self.frame.midX-50, y: 380))
-                        arrow_path2?.addLine(to: CGPoint(x: self.frame.midX, y: 350))
-                        arrow_path2?.addLine(to: CGPoint(x: self.frame.midX+50, y: 380))
-                        arrow_path2?.close()
-                        arrow2 = SKShapeNode(path: arrow_path2!.cgPath)
-                        arrow2?.fillColor = UIColor.darkGray
-                        self.addChild(arrow2!)
+                        // Point at the player's star (screen center).
+                        instructionLabel2 = makeTutorialLabel("Protect Your Star", y: frame.midY + 115)
+                        arrow2 = makeDownArrow(tipY: frame.midY + 45)
+                        instructionLabel = makeTutorialLabel("Collect Matter", y: frame.midY - 120)
+                        beginLabel = makeTutorialLabel("Tap anywhere to begin", y: frame.midY - 220, fontSize: 18)
                     }
                     
                     
